@@ -1,4 +1,4 @@
-<img width="959" alt="and2_4" src="https://user-images.githubusercontent.com/86144443/123267361-8c9e9080-d51a-11eb-847e-1df6a552ffb8.PNG">
+
 # RTLDesign-UsingSKY130
 This is a summary of the RTL Design and Synthesis Workshop that I was a part 
 
@@ -38,7 +38,35 @@ As we can see in this code, it has two submodules. The module multiple_modules i
 <img width="517" alt="summary2" src="https://user-images.githubusercontent.com/86144443/123269031-35012480-d51c-11eb-8b84-becca54a4024.PNG">
 <img width="555" alt="Capture3" src="https://user-images.githubusercontent.com/86144443/123269397-932e0780-d51c-11eb-9b8a-6aa65a156adf.PNG">
 
+<img width="960" alt="netlist_multiple_module" src="https://user-images.githubusercontent.com/86144443/123288572-53bbe700-d52d-11eb-8c48-3085fd8c7951.PNG">
+u1 and u2 are instance of submodule1 and submodule2 respectively. This is the hierarchical design. The hierarchies if modules are preserved.
+On writing the generated netlist to a verilog file we get the following 
+
 <img width="553" alt="Capture4" src="https://user-images.githubusercontent.com/86144443/123272512-6e875f00-d51f-11eb-92b9-3eb9dfc95485.PNG">
+<img width="958" alt="netlist_verilog1" src="https://user-images.githubusercontent.com/86144443/123290235-b9f53980-d52e-11eb-91cb-dfc50989f907.PNG">
+<img width="960" alt="netlist_verilog2" src="https://user-images.githubusercontent.com/86144443/123290281-c24d7480-d52e-11eb-9d3f-2567561c3859.PNG">
+<img width="960" alt="netlist_verilog3" src="https://user-images.githubusercontent.com/86144443/123290310-c8dbec00-d52e-11eb-986c-abfd434d938c.PNG">
+
+Here we are inferring a low power cell 'sky130_fd_sc_hd__lpflow_inputiso1p_1' which is a low power or gate.
+
+Now we will flatten the netlist using command 'flatten'.
+
+<img width="960" alt="flat_netlist" src="https://user-images.githubusercontent.com/86144443/123293358-89fb6580-d531-11eb-88bb-9ba0bd69baed.PNG">
+
+We get the following 
+
+<img width="500" alt="flatten_verilog" src="https://user-images.githubusercontent.com/86144443/123292279-861b1380-d530-11eb-9513-44ad66bb8f2a.PNG">
+![image](https://user-images.githubusercontent.com/86144443/123292437-ab0f8680-d530-11eb-8ecf-4c85296f181d.png)
+
+Now, there is direct instatiation of and gate and low power or gate. There is no u1 and u2 hierarchy.
+
+We can also synthesize just one sub-module by using command synth -top <module_name>. Module level synthesis is preferred when we have multiple instances of same module. If our design is very large, and the tool is not doing good work with this large design. Then, we give one module by one module to the tool and it synthesizes optimized netlist for the same. We can then stich together all the netlist at the top level.
+
+![image](https://user-images.githubusercontent.com/86144443/123295094-05114b80-d533-11eb-90da-2a07e6263b7e.png)
+
+## Various Flop Coding styles and optimization
+
+
 
 
 
