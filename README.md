@@ -138,16 +138,84 @@ On writing the netlist:
 
 Hence, y is 'a' appended with a one bit '0'.
 #### Multiplication of a 3 bit number with 9
+The verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123322243-ac04e000-d551-11eb-8444-02ab6a885340.png)
+
 
 NO CELLS ARE MAPPED
 ![image](https://user-images.githubusercontent.com/86144443/123320869-f1c0a900-d54f-11eb-9699-30677c2af317.png)
 Netlist:
 ![image](https://user-images.githubusercontent.com/86144443/123321126-351b1780-d550-11eb-931c-d3e9c840dca5.png)
-Writing the netlist:
+So we see that the result is {a,a}. No hardware is used.
+On writing the netlist:
 ![image](https://user-images.githubusercontent.com/86144443/123321284-698ed380-d550-11eb-9839-ba56232f78cf.png)
 
 These are very special cases of optimizations and they are very important because no hardware is required at all to implement the logic function, just some rewiring of signals will serve the purpose.
 
+# Day 3: Combinational and Sequential Optimizations
+
+## Introduction to optimizations
+
+## Combinational logic optimizations
+
+The files used in this lab:
+![image](https://user-images.githubusercontent.com/86144443/123331620-2424d300-d55d-11eb-8b13-bf67c3a97a33.png)
+
+Verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123331769-520a1780-d55d-11eb-8e6c-bbf871ada77c.png)
+
+opt_clean -purge command is used for constant propagation and optimizations (used after synth -top command). After that we link it to liberty.
+
+Netlist:
+![image](https://user-images.githubusercontent.com/86144443/123332475-2a677f00-d55e-11eb-95dc-800e4e50e907.png)
+
+We are geting an AND gate which is the optimized version of design.
+
+Verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123332086-af05cd80-d55d-11eb-9dd8-4f2b909ecaa0.png)
+
+Netlist:
+![image](https://user-images.githubusercontent.com/86144443/123333224-15d7b680-d55f-11eb-92da-ba56067c610a.png)
+
+Verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123333436-5fc09c80-d55f-11eb-87fe-ccad44c6e37b.png)
+ 
+ Effectively I should get y=abc
+ 
+ Netlist:
+ ![image](https://user-images.githubusercontent.com/86144443/123333797-d52c6d00-d55f-11eb-9c8d-5f6bc9e760f6.png)
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123334021-1b81cc00-d560-11eb-881e-68a6939d8264.png)
+Netlist generated:
+
+![image](https://user-images.githubusercontent.com/86144443/123334377-a2cf3f80-d560-11eb-8b31-00cb81881156.png)
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123334534-e0cc6380-d560-11eb-9faa-a546c428267b.png)
+
+On optimizing the above design we get y= c or (a and b)
+Netlist generated:
+
+![image](https://user-images.githubusercontent.com/86144443/123335294-e1b1c500-d561-11eb-9bbb-79b877fa257c.png)
+
+The netlist generated is the same as y= c or (a and b).
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123336105-08bcc680-d563-11eb-9721-42fa2564907a.png)
+
+This should be evaluated to zero.
+
+Netlist without flattening:
+
+![image](https://user-images.githubusercontent.com/86144443/123336464-85e83b80-d563-11eb-8be2-b0be8a53cf85.png)
+
+Netlist with flattening:
+
+![image](https://user-images.githubusercontent.com/86144443/123337017-45d58880-d564-11eb-8ad8-b86d4999e76b.png)
 
 
 
