@@ -4,9 +4,9 @@ This is a summary of the RTL Design and Synthesis Workshop that I was a part
 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
-The name of the library file name:
+The name of the library file name is as such because of the following factors:
 - sky130 is the name of the library
-- **tt** stands for typical 
+- **tt** stands for typical process
 - 025C is the temperature
 - 1v8 is the volatage
 
@@ -56,7 +56,9 @@ Now we will flatten the netlist using command 'flatten'.
 We get the following 
 
 <img width="500" alt="flatten_verilog" src="https://user-images.githubusercontent.com/86144443/123292279-861b1380-d530-11eb-9513-44ad66bb8f2a.PNG">
-![image](https://user-images.githubusercontent.com/86144443/123292437-ab0f8680-d530-11eb-8ecf-4c85296f181d.png)
+<img width="498" alt="flatten_verilog1" src="https://user-images.githubusercontent.com/86144443/123296601-684fad80-d534-11eb-97b2-0a20ed740083.PNG">
+
+
 
 Now, there is direct instatiation of and gate and low power or gate. There is no u1 and u2 hierarchy.
 
