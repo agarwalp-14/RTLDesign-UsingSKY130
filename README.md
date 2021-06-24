@@ -67,6 +67,92 @@ We can also synthesize just one sub-module by using command synth -top <module_n
 ![image](https://user-images.githubusercontent.com/86144443/123295094-05114b80-d533-11eb-90da-2a07e6263b7e.png)
 
 ## Various Flop Coding styles and optimization
+There are various combinational circuit blocks in a design. The combinational blocks, however suffer from glitching issues. 
+
+![image](https://user-images.githubusercontent.com/86144443/123299840-8a96fa80-d537-11eb-8cb4-9fcddcd63d0c.png)
+
+As seen above, glitch is the momentarily change in the output which is undesired. To overcome this issue we introduce flip flops in our design. 
+Flip flops stores the value of the output and the value changes only at the edge of the clock. The output of the flop will the stable. The combinational circuit sees stable input and the glitch is taken care of. 
+
+If the initial state of the flop is unknown, the combinational circuit will evaluate it to garbage value. Reset control pins and set control pins are used to initialize the flop.
+ ### Asynchronous reset and asynchronous set
+ 
+ The verilog code for asynchronous reset:
+ 
+![image](https://user-images.githubusercontent.com/86144443/123301156-f75ec480-d538-11eb-92f2-1bd676a864c7.png)
+
+As seen, the sensitivity list has reset and clock both. So, if there is any change is reset signal, the always block will be executes and the output 'q' will go low.
+
+In asynchronous reset, the reset will be evaluated irrespective of the positive edge of the clock. The output q will go to 0 whenever it sees reset going to '1'. It will not wait for the next positive edge of the clock. 
+
+<img width="960" alt="async_iverilog_gtk" src="https://user-images.githubusercontent.com/86144443/123301419-4147aa80-d539-11eb-9f22-8fd173c95078.PNG">
+<img width="759" alt="wave_async_reset" src="https://user-images.githubusercontent.com/86144443/123301448-4a387c00-d539-11eb-9181-9ee0b57df9ba.PNG">
+
+On synthesizing the RTL design we get the following netlist generated:
+![image](https://user-images.githubusercontent.com/86144443/123306347-ce413280-d53e-11eb-938a-0bafe215e906.png)
+
+There is an inverter before the reset input because in our code, we have used active high reset signal but in standard D flip flop cells, reset is active low. 
+
+
+In asynchronous set, the set will be evaluated irrespective of the positive edge of the clock. The output q will go to '1' whenever it sees set going to '1'. It will not wait for the next positive edge of the clock. 
+![image](https://user-images.githubusercontent.com/86144443/123304009-0e52e600-d53c-11eb-86a3-7ea6731b25bd.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123303326-51f92000-d53b-11eb-8200-aea9c04c963a.png)
+
+On synthesizing the asynchronous set RTL design, we get the following netlist:
+![image](https://user-images.githubusercontent.com/86144443/123306889-78b95580-d53f-11eb-8d60-c5bc5b67be33.png)
+
+
+### Synchronous set and synchronous reset
+Verilog code for D flip flop with synchronous reset:
+
+![image](https://user-images.githubusercontent.com/86144443/123304799-fdef3b00-d53c-11eb-8b8e-8f59da58680d.png)
+
+The sensitivity list here has only the clock signal. So the always block will be executed only if there is a positive edge of the clock.
+In synchronous reset, the reset is going high, but the output q is not immediately going low, it is waiting for the next positive edge of the clock, and then going low. This can be observed in the following waveform.
+
+![image](https://user-images.githubusercontent.com/86144443/123304388-88836a80-d53c-11eb-8b22-05356380675d.png)
+
+If both clock and 'd' input are high on the positive edge of the clock, preference is given to sync_reset because it is there in the if portion.
+
+![image](https://user-images.githubusercontent.com/86144443/123307393-11e86c00-d540-11eb-8b1a-268364640010.png)
+
+### Some interesting optimizations
+
+#### Multiplication of a three bit number by 2
+
+![image](https://user-images.githubusercontent.com/86144443/123309748-ed41c380-d542-11eb-9ddf-2526a901966b.png)
+
+No memories, no cells are synthesized for mul2. Number of cells inferred is 0.
+![image](https://user-images.githubusercontent.com/86144443/123310087-588b9580-d543-11eb-845d-05e8ba8018aa.png)
+
+On using abc -liberty command, it says 'don't call ABC as there is nothing to map'.
+![image](https://user-images.githubusercontent.com/86144443/123310300-9092d880-d543-11eb-884a-a6ff4768fc2c.png)
+
+On viewing the netlist, we get 'a' appended with one bit '0' as 'y', which is expected. No hardware is generated.
+![image](https://user-images.githubusercontent.com/86144443/123310476-bddf8680-d543-11eb-8604-35497b82a3bd.png)
+
+On writing the netlist:
+
+![image](https://user-images.githubusercontent.com/86144443/123319673-57139a80-d54e-11eb-88a3-915233c6e76f.png)
+
+Hence, y is 'a' appended with a one bit '0'.
+#### Multiplication of a 3 bit number with 9
+
+NO CELLS ARE MAPPED
+![image](https://user-images.githubusercontent.com/86144443/123320869-f1c0a900-d54f-11eb-9699-30677c2af317.png)
+Netlist:
+![image](https://user-images.githubusercontent.com/86144443/123321126-351b1780-d550-11eb-931c-d3e9c840dca5.png)
+Writing the netlist:
+![image](https://user-images.githubusercontent.com/86144443/123321284-698ed380-d550-11eb-9839-ba56232f78cf.png)
+
+These are very special cases of optimizations and they are very important because no hardware is required at all to implement the logic function, just some rewiring of signals will serve the purpose.
+
+
+
+
+
+
 
 
 
