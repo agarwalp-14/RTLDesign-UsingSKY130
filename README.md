@@ -217,6 +217,81 @@ Netlist with flattening:
 
 ![image](https://user-images.githubusercontent.com/86144443/123337017-45d58880-d564-11eb-8ad8-b86d4999e76b.png)
 
+## Sequential logic optimizations
+
+Verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123401262-3dad3580-d5c4-11eb-877a-61b788b9f21d.png)
+This is a sequential constant.
+Waveform:
+![image](https://user-images.githubusercontent.com/86144443/123402516-700b6280-d5c5-11eb-9bd9-e1d80bdc6472.png)
+
+Reset went low, but q does not go high immediately, it is waiting for the next rising edge of the clock. This circuit will infer a flop.
+
+Netlist synthesized:
+![image](https://user-images.githubusercontent.com/86144443/123406762-df368600-d5c8-11eb-92a2-5ae8a5ac05ea.png)
+
+A d-flip flop is generated. d is connected to '1'. This particular library cell is expecting a active low reset, but we have coded an active high reser, so tool is inferring a inverter passing through the reset signal. 
+
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123401878-d2b02e80-d5c4-11eb-82d4-9bd2153203d0.png)
+Waveform:
+
+![image](https://user-images.githubusercontent.com/86144443/123403145-1a838580-d5c6-11eb-9395-964679d9d65d.png)
+q is always 1.
+
+![image](https://user-images.githubusercontent.com/86144443/123407484-a814a480-d5c9-11eb-81bb-e2a03b42ac22.png)
+No cells are inferred here on synthesizing the rtl code as can be seen above.
+Netlist:
+
+![image](https://user-images.githubusercontent.com/86144443/123407711-e0b47e00-d5c9-11eb-93ab-9727411b69b5.png)
+
+No D-Flip Flop is inferred.
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123408297-7a7c2b00-d5ca-11eb-97cc-2b007cf81c40.png)
+
+Waveform:
+![image](https://user-images.githubusercontent.com/86144443/123431171-9c83a680-d5e6-11eb-833e-e1a3f725cd0b.png)
+
+When the reset goes to '0', 'q1' goes to '1' at the next positive edge of the clock. But there is a clock-to-q delay in the flip flop whose output is 'q1', so 'q' remains '0' for one clock cycle and then goes to '1', that is follows 'q1' at the next positive edge of the clock. 
+
+![image](https://user-images.githubusercontent.com/86144443/123432004-86c2b100-d5e7-11eb-8682-774739721ac0.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123432334-e751ee00-d5e7-11eb-8541-11f34b8ef56b.png)
+
+So two flip flops are inferred. 
+
+So, not every flop that has a constant at the input will get optimised. We need to look at the set and reset connections at the input of the flop and see whether 'q' is getting constant values or they will change.
+
+Few more examples!
+
+![image](https://user-images.githubusercontent.com/86144443/123432961-9262a780-d5e8-11eb-8ee1-d58dfb87b3da.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123433362-01d89700-d5e9-11eb-8eba-c8d30d64dc3a.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123433545-33e9f900-d5e9-11eb-9899-f17edab913cc.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123433684-59770280-d5e9-11eb-8d7e-62360a93c1dc.png)
+
+No flip flops are inferred in this example.
+
+![image](https://user-images.githubusercontent.com/86144443/123433870-84f9ed00-d5e9-11eb-835a-7962845f29db.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123434480-284b0200-d5ea-11eb-8df9-783860757e20.png)
+
+
+![image](https://user-images.githubusercontent.com/86144443/123434046-b07cd780-d5e9-11eb-9bee-281ad228b864.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123434187-d609e100-d5e9-11eb-8b92-57c83088042a.png)
+
+
+
+
+
+
 
 
 
