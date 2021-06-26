@@ -288,6 +288,23 @@ No flip flops are inferred in this example.
 ![image](https://user-images.githubusercontent.com/86144443/123434187-d609e100-d5e9-11eb-8b92-57c83088042a.png)
 
 
+## Unused output optimization
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123443640-b5468900-d5f3-11eb-8a55-78ee8ce70e64.png)
+
+This is a 3-bit UP counter. 
+count[2] and count[1] are unused here. They are not affecting the ouput in anyway. Because, q is assigned to count[0]. 
+count[0] is toggling on every clock cycle.
+
+![image](https://user-images.githubusercontent.com/86144443/123444567-a9a79200-d5f4-11eb-8402-d11f51a36eae.png)
+
+3- bit counter should have 3 flops, but, here, only one flop is inferred.
+
+![image](https://user-images.githubusercontent.com/86144443/123445210-4c601080-d5f5-11eb-838d-2a268537a290.png)
+
+One flop is inferred. The output q is connected to count[0], which is passing through an inverter and feedbacked to input 'd' of flip flop. The unused bits count[1] and count[2] are completely optimised off. The output related to the primary output only have relevance in the circuit. 
 
 
 
