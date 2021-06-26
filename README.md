@@ -319,12 +319,37 @@ Three flops are inferred.
 
 q= count[2]count[1]'count[0]. which is generated using a three input NOR gate and is connected to q.
 
+Another example from assessment:
+
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123522691-848e4e80-d6dc-11eb-9b0c-f2084cab1999.png)
+
+Waveform:
+
+![image](https://user-images.githubusercontent.com/86144443/123522786-36c61600-d6dd-11eb-8ad9-cc69c83a7fa0.png)
+
+
+Generated netlist:
+
+![image](https://user-images.githubusercontent.com/86144443/123522726-c4edcc80-d6dc-11eb-9c6a-a51bb868d71e.png)
+
+Here the output is optimized to 0, as the condition of q never meets. The count value is either '100' or '000'. It is never equal to '101'.
 
 # Day4: GLS, blocking vs non blocking and Synthesis-Simulation mismatch
 
 ## GLS, Synthesis-Simulation mismatch and Blockin/Non-blocking statements
 
-## Labs
+Gate Lvel Simulation is basically running the testbench with Netlist as Design under test. If the logical correctness of design after synthesis is okay, then the waveform generated after gate level simulation will be same as RTL simulation. 
+
+Gate Level Simulation also helps in ensuring if the timing of the design is met. For this, GLS needs to be run with delay annotations. The gate level verilog models needs to be delay annotated, then GLS can be used for timing violations.
+
+The reason for validating the functionality of the netlist is because, in certain cases there are synthesis simulation mismatch which occurs due to the following reasons:
+- Missing sensitivity list
+- incorrect usage of blocking vs non blocking assignments
+- non standard verilog coding
+
+## Labs on GLS and synthesis simulation mismatch
 Verilog code:
 ![image](https://user-images.githubusercontent.com/86144443/123511623-f2685500-d69f-11eb-9611-e78132187dee.png)
 
@@ -364,6 +389,8 @@ Now if we synthesize the RTL and write the netlist and then view its correspondi
 
 Here, the waveform is entirely like that of a 2:1 MUX! So, vividly, because of the missing sensitivity list, there is a synthesis simulation mismatch.
 
+## Labs on synth-sim mismatch for blocking statement
+
 Now we will see a case of synthesis simulation mistach due to incorrect use of blocking statements:
 
 ![image](https://user-images.githubusercontent.com/86144443/123514763-19c81d80-d6b2-11eb-986a-aba21affb6df.png)
@@ -387,8 +414,9 @@ So a synth-sim mismatch is there which is caused by blocking statements.
 
 So blocking statements should be used with utmost care and clarity in verilog. 
 
+# Day5: If, case, for loop and for generate
 
-
+If is used to create priority logic.
 
 
 
