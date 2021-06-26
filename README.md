@@ -306,6 +306,86 @@ count[0] is toggling on every clock cycle.
 
 One flop is inferred. The output q is connected to count[0], which is passing through an inverter and feedbacked to input 'd' of flip flop. The unused bits count[1] and count[2] are completely optimised off. The output related to the primary output only have relevance in the circuit. 
 
+Now, 
+We make a small change in the code and assign q as (count[2:0]==3'b100)
+Now all the three bits of the counter are used for estimating the output. So, three flops should be genrated.
+![image](https://user-images.githubusercontent.com/86144443/123504394-a1903680-d676-11eb-9364-c31df52b66d8.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123504938-ea95ba00-d679-11eb-86a9-3ddbef5fd9ee.png)
+
+Three flops are inferred.
+
+![image](https://user-images.githubusercontent.com/86144443/123505009-4bbd8d80-d67a-11eb-92bb-b28f04dcb2ea.png)
+
+q= count[2]count[1]'count[0]. which is generated using a three input NOR gate and is connected to q.
+
+
+# Day4: GLS, blocking vs non blocking and Synthesis-Simulation mismatch
+
+## GLS, Synthesis-Simulation mismatch and Blockin/Non-blocking statements
+
+## Labs
+Verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123511623-f2685500-d69f-11eb-9611-e78132187dee.png)
+
+This will be a 2:1 MUX as can be visualized from the wwaveform.
+
+![image](https://user-images.githubusercontent.com/86144443/123511684-63a80800-d6a0-11eb-9244-34d8ba9f061b.png)
+
+When sel=0, output is following i0, when sel=1, output is following i1. 
+
+![image](https://user-images.githubusercontent.com/86144443/123511782-f052c600-d6a0-11eb-8a59-85cd90f9b0c5.png)
+
+Clearly, a MUX is inferred.
+
+![image](https://user-images.githubusercontent.com/86144443/123513327-50019f00-d6aa-11eb-8d47-e7615b22842e.png)
+
+Now we will write the netlist to a verilog file ternary_operator_mux_net.v
+Now we will do GLS. To do gls we need to invoke iverilog with verilog models, netlist and the testbench.
+
+![image](https://user-images.githubusercontent.com/86144443/123513668-ea161700-d6ab-11eb-8160-13169f9314a3.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123513687-031ec800-d6ac-11eb-87d5-56639986d965.png)
+
+The GLS output is matching with the RTL simulation output. No synthesis simulation mismatch here.
+
+Let's take an example of synthesis simulation mismatch due to missing sensitivity list.
+Verilog code:
+
+![image](https://user-images.githubusercontent.com/86144443/123513725-4ed17180-d6ac-11eb-8e3b-5b6fec48bcbf.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123513773-a53eb000-d6ac-11eb-831f-f46b9eb11337.png)
+
+Clearly this is not behaving like a MUX. The changes of i0 and i1 are not being sensed because they are not present in the sensitivity list. The simulation is showing a dual edge flop kind of behaviour. 
+
+Now if we synthesize the RTL and write the netlist and then view its corresponding waveform will be like
+
+![image](https://user-images.githubusercontent.com/86144443/123514485-e638c380-d6b0-11eb-9900-4ce7293a1112.png)
+
+Here, the waveform is entirely like that of a 2:1 MUX! So, vividly, because of the missing sensitivity list, there is a synthesis simulation mismatch.
+
+Now we will see a case of synthesis simulation mistach due to incorrect use of blocking statements:
+
+![image](https://user-images.githubusercontent.com/86144443/123514763-19c81d80-d6b2-11eb-986a-aba21affb6df.png)
+
+Aim was to create the logic d= (a or b) and c 
+We have used blocking statements, so first d=x & c will be executed and then x= a or b will be executed.
+
+![image](https://user-images.githubusercontent.com/86144443/123515039-97405d80-d6b3-11eb-9ca5-74bb3a5541ce.png)
+
+At the instant shown on the waveform, a=0, b=0, c=1. So the value of d should be 0. But in the waveform, the value of d is 1. As the code is evaluating d= x&c first, the previous value of x ( x= a or b) will be used which is '1'. So we get tthe output d=1. So the circuit is behaving as there is a flop for storing the value of x= a or b.
+
+![image](https://user-images.githubusercontent.com/86144443/123515338-a7a50800-d6b4-11eb-82d1-c7f492aa68fa.png)
+The netlist is straight forward. A 2 input OR gate followed by a AND gate. No flop is inferred.
+On writing the netlist and then observing the waveform:
+
+![image](https://user-images.githubusercontent.com/86144443/123515537-737e1700-d6b5-11eb-83b1-c15b7d729d34.png)
+
+(A1=a, A2=b. B=c, X=d)
+when a=0, b=0, c=1, the vaue of output d=0. 
+So a synth-sim mismatch is there which is caused by blocking statements.
+
+So blocking statements should be used with utmost care and clarity in verilog. 
 
 
 
