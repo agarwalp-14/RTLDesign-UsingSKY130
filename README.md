@@ -9,7 +9,7 @@ This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, tha
 ## Introduction to open source simulator verilog 
  
 ### Simulator
-- Simulator checks the RTL Design to check whether the design is following its specifications or not.
+- Simulator is a tool that checks the RTL Design for adherence to the spec by simulating it.
 - _iverilog_ is the tool used here.
 
 
