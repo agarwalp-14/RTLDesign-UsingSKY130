@@ -7,6 +7,11 @@ This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, tha
 # Day 1: Introduction to Verilog RTL design and Synthesis
 
 ## Introduction to open source simulator verilog 
+ 
+### Simulator
+- Simulator checks the RTL Design to check whether the design is following its specifications or not.
+- _iverilog_ is the tool used here.
+
 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
