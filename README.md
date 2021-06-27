@@ -541,6 +541,49 @@ In GLS, the simulator output is following i3 when sel=11. So, clearly there is s
 
 ## For loop and for generate 
 
+For loop:
+-  used for evaluating expressions.
+-  In verilog, for loop is always used inside always block. 
+-  For loop doesnot generate/instantiate hardware.
+-  very useful for implementing wide MUX/DeMUX
+
+For generate:
+- used outside always block
+- it is used for replicating/instantiating harware, it does not evaluate expressions
+
+## Labs on for and for generate
+
+### Example 1:
+
+![image](https://user-images.githubusercontent.com/86144443/123540508-f8703b80-d75c-11eb-8008-29a54d2d3000.png)
+
+Here, a 4:1 MUX is generated using for loop. 
+
+![image](https://user-images.githubusercontent.com/86144443/123540607-8a784400-d75d-11eb-843f-b71ab3ac73aa.png)
+
+The waveform is perfectly demonstrating a 4:1 MUX. 
+
+![image](https://user-images.githubusercontent.com/86144443/123540999-9b29b980-d75f-11eb-895b-a1779d9ceeed.png)
+
+A latch is inferred, it is always in transparent mode with active low enable.
+
+### Example 2:
+
+![image](https://user-images.githubusercontent.com/86144443/123542672-8bfb3980-d768-11eb-9bfd-40d50e879ccb.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123542689-a46b5400-d768-11eb-8a12-88e353176f09.png)
+
+Two ways of writing demux, one using case statements and other if using for loop. 
+
+Waveform generated for for loop:
+
+![image](https://user-images.githubusercontent.com/86144443/123542826-455a0f00-d769-11eb-877b-973a6ff133cb.png)
+
+Waveform generated for demux with case statement:
+
+![image](https://user-images.githubusercontent.com/86144443/123542921-c1545700-d769-11eb-81a6-f013ce8b21c4.png)
+
+Both are same. As can be seen, for is a simple, concise elegant way to write demux or mux. It avoids the repetition of lines.
 
 
 
