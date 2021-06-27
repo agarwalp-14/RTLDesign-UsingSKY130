@@ -1,9 +1,12 @@
 
 # RTLDesign-UsingSKY130
-This is a summary of the RTL Design and Synthesis Workshop that I was a part 
+This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, that I was a part of.
 
 # Table of contents:
 
+# Day 1: Introduction to Verilog RTL design and Synthesis
+
+## Introduction to open source simulator verilog 
 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
