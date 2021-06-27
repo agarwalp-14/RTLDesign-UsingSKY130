@@ -2,6 +2,9 @@
 # RTLDesign-UsingSKY130
 This is a summary of the RTL Design and Synthesis Workshop that I was a part 
 
+# Table of contents:
+
+
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
 The name of the library file name is as such because of the following factors:
@@ -350,6 +353,7 @@ The reason for validating the functionality of the netlist is because, in certai
 - non standard verilog coding
 
 ## Labs on GLS and synthesis simulation mismatch
+### Example 1
 Verilog code:
 ![image](https://user-images.githubusercontent.com/86144443/123511623-f2685500-d69f-11eb-9611-e78132187dee.png)
 
@@ -366,7 +370,7 @@ Clearly, a MUX is inferred.
 ![image](https://user-images.githubusercontent.com/86144443/123513327-50019f00-d6aa-11eb-8d47-e7615b22842e.png)
 
 Now we will write the netlist to a verilog file ternary_operator_mux_net.v
-Now we will do GLS. To do gls we need to invoke iverilog with verilog models, netlist and the testbench.
+Now we will do GLS. To do gls we need to invoke iverilog with verilog models (primitives.v and sky130_fd_sc_hd.v), netlist and the testbench.
 
 ![image](https://user-images.githubusercontent.com/86144443/123513668-ea161700-d6ab-11eb-8160-13169f9314a3.png)
 
@@ -374,6 +378,7 @@ Now we will do GLS. To do gls we need to invoke iverilog with verilog models, ne
 
 The GLS output is matching with the RTL simulation output. No synthesis simulation mismatch here.
 
+### Example 2:
 Let's take an example of synthesis simulation mismatch due to missing sensitivity list.
 Verilog code:
 
@@ -416,11 +421,125 @@ So blocking statements should be used with utmost care and clarity in verilog.
 
 # Day5: If, case, for loop and for generate
 
-If is used to create priority logic.
+## If case constructs
+
+If is used to create priority logic. However, if the if statements are not incompletely written it wil infer latches, which is undesirable.
+
+Same goes with the case statements. If there is an incomplete case statement, latch will be inferred. So, we have to make sure to code case with default statement. 
+Also if there is a partial assignment of output, lateches will be inferred. Let's hop on to labs to see how these things look like!
+
+## Labs on incomplete if case
+
+### Example 1:
+Verilog code:
+![image](https://user-images.githubusercontent.com/86144443/123525394-f0c57e00-d6ed-11eb-9449-b97c279a672b.png)
+
+There is no else part coded. This looks like a D latch. i0 acts as enable.
+
+![image](https://user-images.githubusercontent.com/86144443/123525540-1d2dca00-d6ef-11eb-88de-0c1a44aa0b59.png)
+
+
+Whenever i0 is low, the output y is latched to either 1 or 0 (just the previous value of i1), it is constant. When i0 is high, y is following i1.
+
+![image](https://user-images.githubusercontent.com/86144443/123525568-50705900-d6ef-11eb-9269-59d42947dec0.png)
+
+Our aim was to code a MUX, but the tool is inferring a latch! 
+
+![image](https://user-images.githubusercontent.com/86144443/123525593-7e559d80-d6ef-11eb-8194-6f26c9feec5c.png)
+
+Its a D latch with i0 as enable. 
+So a latch is inferred if there is an incomplete if.
+
+### Example 2:
+
+![image](https://user-images.githubusercontent.com/86144443/123535270-5d696880-d740-11eb-97b7-3ba8d01a3e50.png)
+
+The else statement is missing, so we expect a latch to be inferred.
+
+![image](https://user-images.githubusercontent.com/86144443/123535902-d66abf00-d744-11eb-85a4-7efd87d7f22d.png)
 
 
 
+When i0 is high, output is exactly following i1.
+When i0 is low, i2 is the select line. When i2 is low, output is constant(0 or 1). When i2 goes high, output follows i3. So a latch is inferred because there is no else statement.
 
+
+![image](https://user-images.githubusercontent.com/86144443/123535837-3b71e500-d744-11eb-93a4-2b3fd9416f5c.png)
+
+
+A D-latch with active low enable is inferred. The logic for the enable pin of the latch is i0 NOR i2. That is when both i0 and i2 are low, EN=1 and the output is latched and the previous stored value is the output. Otherwise, in the transparent state(EN=0) it's a function of i0, i1 and i3.
+
+## Labs on incomplete overlapping case 
+
+### Example 1:
+
+![image](https://user-images.githubusercontent.com/86144443/123535962-2fd2ee00-d745-11eb-99af-a951549ba8fe.png)
+
+The case statement will transform into a MUX. However, the cases are not complete, so a latch is expected to infer. 
+
+![image](https://user-images.githubusercontent.com/86144443/123536231-c358ee80-d746-11eb-8586-b9d105a68201.png)
+
+When sel=00, output is following i0.
+When sel=01, output is following i1.
+But when sel= 10 or sel=11, the output is latched to the previous value of y.
+
+![image](https://user-images.githubusercontent.com/86144443/123536329-47ab7180-d747-11eb-9876-59bc2de27de9.png)
+
+So, as we expected, a latch with active low enable is inferred. The enable pin of the latch is sel[1]. Latching action is performed whenever sel[1]=1. The D pin of the latch is the MUX logic generated by the case statement.
+
+### Example 2:
+
+![image](https://user-images.githubusercontent.com/86144443/123536451-01a2dd80-d748-11eb-95e3-7707df0305bd.png)
+
+Here, a default statement is included. So, the missing combinations of sel inputs will be taken care by default and no latch will be generated. 
+
+![image](https://user-images.githubusercontent.com/86144443/123536546-79710800-d748-11eb-9b18-8f8651977995.png)
+
+When sel=00, output is following i0.
+When sel=01, output is following i1.
+When sel=10 and sel=11, output is following i2.
+Default statement helps escape the letching action!
+
+![image](https://user-images.githubusercontent.com/86144443/123536597-e7b5ca80-d748-11eb-9659-298f74a35aa5.png)
+
+No latch is inferred. The logic generated is that of a 4*1 MUX.
+
+### Example 3:
+
+![image](https://user-images.githubusercontent.com/86144443/123536653-598e1400-d749-11eb-81e8-48d848cd30d3.png)
+
+The output x is not assigned for sel=01. Hence, a latch will be inferred.
+
+![image](https://user-images.githubusercontent.com/86144443/123538510-da054280-d752-11eb-8270-c7182542d6b9.png)
+
+y is not having any latch in its path. 
+output of x is having a latch. EN= (sel[1]'.sel[0])'= seal[1]+sel[0]'. 
+
+### Example 4:
+
+![image](https://user-images.githubusercontent.com/86144443/123538697-bf7f9900-d753-11eb-9381-f11450ea429e.png)
+
+When sel= 10, the fourth case can also be executed. The simulator will be confused and there will be a synth-sim mismatch. 
+
+![image](https://user-images.githubusercontent.com/86144443/123538842-54829200-d754-11eb-9bd3-2af538b36adc.png)
+
+When we perform the RTL simulation, we get the above waveform. When sel=11, the simulator output y is neither following i2 nor i3, it is constant. The tool is getting confused here.
+
+Now, we perform synthesis.
+
+![image](https://user-images.githubusercontent.com/86144443/123538940-cd81e980-d754-11eb-8e45-7cb6c1fa41dc.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123539143-dc1cd080-d755-11eb-9449-6163efbc95ca.png)
+
+No latches are inferred, as the cases are complete. There are overlapping cases. 
+
+Now we write the netlist to a verilog file and perform gate level simulation.
+
+![image](https://user-images.githubusercontent.com/86144443/123539077-96600800-d755-11eb-8aed-fe8161b682cf.png)
+
+In GLS, the simulator output is following i3 when sel=11. So, clearly there is synth-sim mismatch. 
+
+## For loop and for generate 
 
 
 
