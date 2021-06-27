@@ -9,9 +9,36 @@ This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, tha
 ## Introduction to open source simulator verilog 
  
 ### Simulator
-- Simulator is a tool that checks the RTL Design for adherence to the spec by simulating it.
-- _iverilog_ is the tool used here.
+- Simulator is a tool that checks the RTL Design for adherence to the specifications by simulating it.
+- _iverilog_ is the tool used here for simulating the RTL design.
 
+### Design
+- Design is the actual Verilog code or set of codes which has the purposful functionality to meet with the required specifications.
+- Design may have multiple primary inputs and outputs.
+
+### TestBench
+
+- TestBench is used to check the functionality of the design by applying stimulus(test_vectors) to the design.
+- TestBench is never synthesized, it is used in RTL and Gate Level Simulation.
+- TestBench doesnot have a primary input or primary output.
+
+![image](https://user-images.githubusercontent.com/86144443/123549374-641ace80-d786-11eb-9aae-9a7514d01d7f.png)
+
+Design will be instantiated  in the testbench and then we will have a mechanism to apply the stimulus to the design.
+
+### How simulator works?
+
+Simulator always looks for change in value of input signal. If there is any change in input, output is evaluated. There is no change in output, if there is no change in input.
+
+iverilog based Simulation flow:
+
+![image](https://user-images.githubusercontent.com/86144443/123549675-97119200-d787-11eb-95be-7f70a0d473c6.png)
+
+Design and TestBench are applied to the simulator which looks for changes iin the input and dumps the changes in the output to a vcd file.
+Output of the simulator is a vcd file where vcd stands for Value Change Dump. 
+To view the vcd file, we use another tool called gtkwave where we can verify the functionality of the design.
+
+## Labs using iverilog and gtkwave
 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
