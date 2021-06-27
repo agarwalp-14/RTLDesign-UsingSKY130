@@ -40,6 +40,30 @@ To view the vcd file, we use another tool called gtkwave where we can verify the
 
 ## Labs using iverilog and gtkwave
 
+### Introduction to lab
+
+First of all we will clone all the required files and folders which are required for this workshop.
+
+![image](https://user-images.githubusercontent.com/86144443/123549759-fcfe1980-d787-11eb-9755-031924a74f33.png)
+
+ This will create a folder called _sky130RTLDesignAndSynthesisWorkshop_.
+ The directory will contain certain folders as can be seen in the screenshot above.
+ 
+ ![image](https://user-images.githubusercontent.com/86144443/123549886-857cba00-d788-11eb-8e35-6a538c2ffbe0.png)
+
+ my_lib will contain all the library files which are needed. It has two folders _lib_ and _verilog_model_. _lib_ contains the sky130 standard cell library which we will be using for the synthesis. _verilog_model_ contains all the standard cell verilog models of the standard cells which are present in .lib.
+ 
+ ![image](https://user-images.githubusercontent.com/86144443/123550019-0b006a00-d789-11eb-89f2-fa0c45505a38.png)
+
+_verilog_files_ is the folder which contains the verilog source and verilog testbench files which will be used in the labs.
+ 
+ ### Introduction to iverilog gtkwave
+ 
+ 
+ 
+ 
+ 
+ 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
 The name of the library file name is as such because of the following factors:
