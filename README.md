@@ -59,11 +59,108 @@ _verilog_files_ is the folder which contains the verilog source and verilog test
  
  ### Introduction to iverilog gtkwave
  
+ We will load any one of the designs and its corresponding testbench from _verilog_files_ folder.
+The command to load design is _iverilog <design_name.v> <testbench_name.v>_. 
+A file called a.out is created in the _verilog_files_ folder. To execute the output file, command is _./a.out_. This is going to dump the vcd file.
+This vcd file is loaded in the simulator using the command _gtkwave <vcd_file_name.vcd_. 
+
+![image](https://user-images.githubusercontent.com/86144443/123551631-4a7e8480-d790-11eb-99a9-9e7ca7c75ec0.png)
+
+A waveform is displayed. 
+
+![image](https://user-images.githubusercontent.com/86144443/123551854-37b87f80-d791-11eb-9ac8-75ab789784ff.png)
+
+The waveforms of the input and output singals of the module that has been instantiated in the testbench can be seen. A 2:1 MUX is implemennted here. When sel=0, output follows i0. When sel=1, output follows i1.
+
+_gvim <file_name.v> -o <file_name.v>_ is the command used to view multiple verilog files.
+
+![image](https://user-images.githubusercontent.com/86144443/123552101-3e93c200-d792-11eb-9ea3-a0d3f8bf66ad.png)
+
+The testbench file looks like this:
+
+  `timescale 1ns / 1ps
+   module tb_good_mux;
+	 // Inputs
+	 reg i0,i1,sel;
+	 // Outputs
+	 wire y;
+
+        // Instantiate the Unit Under Test (UUT)
+	good_mux uut (
+		.sel(sel),
+		.i0(i0),
+		.i1(i1),
+		.y(y)
+	);
+
+	initial begin
+	$dumpfile("tb_good_mux.vcd");
+	$dumpvars(0,tb_good_mux);
+	// Initialize Inputs
+	sel = 0;
+	i0 = 0;
+	i1 = 0;
+	#300 $finish;
+	end
+
+    always #75 sel = ~sel;
+    always #10 i0 = ~i0;
+    always #55 i1 = ~i1;
+    endmodule
  
+## Introduction to yosys
+
+### Synthesizer
+- Synthesizer is a tool used for converting the RTL to netlist.
+- *_Yosys_* is the synthesizer used in this workshop. 
+
+![IMG_0288](https://user-images.githubusercontent.com/86144443/123552713-f2964c80-d794-11eb-84c7-521ed07d215b.jpg)
+
+Design and .lib is applied to yosys which gives the netlist. Netlist is the representation of the design in form of the standard cells in .lib.
+
+_read_verilog <file_name.v>_ is the command used to read the design.
+
+_read_liberty <path>_ is the command used to read the .lib.
  
+_write_verilog <file_name.v>_ is the command used to write the netlist file.
  
+ ![image](https://user-images.githubusercontent.com/86144443/123552887-00000680-d796-11eb-9ec8-d8136cabf8fa.png)
+
+ To verify the synthesis, netlist and test bench are applied to iverilog simulator. The vcd file generated is then viewed on the gtkwave. This output waveform should be same as that of observed during RTL simulation, otherwise synthesis-simulation mismatch is said to be occured. 
  
+ The set of primary inputs/ primary outputs will remain same between the RTL design and synthesized netlist. So, same testbench can be used both for RTL simulation and for verifying the netlist.
  
+ ### Importance of Libraries
+ 
+RTL Design is the behavioral representation of the required specification. We want a hardware circuit of our RTL code. Synthesis is RTL to gate level translation. The design is converted into gates and the connections are made between the gates. This is given out as a file called netlist.
+ 
+ ![image](https://user-images.githubusercontent.com/86144443/123553290-efe92680-d797-11eb-8496-0b0ebcb1da31.png)
+
+ .lib is the collection of logical modules. It includes basic logic gates like AND, OR, NOT, etc. It also contains various versions of same standard cells(slow, medium, fast).
+ 
+ ### Why do we need different faster cells?
+ 
+ We know, combinational delay in logic path determines the maximum speed of operation of digital logic circuit. 
+ 
+ Let's look at the following example:
+ 
+ ![image](https://user-images.githubusercontent.com/86144443/123553397-933a3b80-d798-11eb-9508-8ed869de6661.png)
+ 
+ A flip flop A and flip flop B connected through a combinational cicuit. The maximum clock frequency it can work should be such that data can travel from DFF_A to D_FFB in one clock cycle.
+
+ T_clk> T_cqA + T_combi + T_setupB
+ Here,
+   T_cqA- propogation delay of DFF A
+   T_combi- propogation delay of the combination circuit
+   T_setupB- setup time for DFF B (min. time before the clock edge where input data supplied has to be stable)
+ So, the clock cycle needs to accomodate these three delays. This will determine the min time period needed. So f_max= 1/T_clk.
+ We always look for maximum performance, that is minimum time period for which we will prefer faster cells.
+ 
+ ### Why do we need slower cells?
+ 
+ In order to ensure the DFF_B capture data reliably
+ 
+
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
 The name of the library file name is as such because of the following factors:
