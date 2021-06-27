@@ -158,8 +158,73 @@ RTL Design is the behavioral representation of the required specification. We wa
  
  ### Why do we need slower cells?
  
- In order to ensure the DFF_B capture data reliably
- 
+ In order to ensure the DFF_B capture data reliably, We need to gaurantee a minimum delay from DFF_A to DFF_B. 
+  
+	T_holdB < T_cqA + T_c
+                 
+ Where T_holdB is the minimum time that the data needs to remain stable after the active edge of the clock. 
+	
+ Hence we need cells that work slowly in order to prevent hold violations at DFF_B. 
+ Therefore, we need cells to work fast to meet performance and cells that work slow to meet HOLD. We have to optimally select the cells to meet our requirement. This collection forms the lib.
+    
+  ### Faster cells vs slower cells
+   
+  - The load in digital circuit is basically the capacitance
+  - Faster the charging and discharging of capacitance, lesser will be the cell delay. 
+                 
+                 - To charge/ discharge the capacitance fast, we need transistors capable of sourcing more current.
+                 
+                 - Wider transistors -> Lesser delay -> More area and power
+  
+                 - Narrow transistor -> More delay -> Less area and power. 
+  - There is no free lunch! Faster cells come at a penalty of area and power.
+  
+  So, we need to guide the synthesizer to select the type of cells that is optimum for the implementation of logic circuit.
+  More use of faster cells will make the circuit bad in terms of area and power, also there might be hold time violations.
+  More use of slower cells will make the circuit sluggish that may not meet the performance need.
+  
+  So, "constraints" is the guidance given to the synthesizer. 
+  
+  ## Labs using Yosys and Sky130 PDKs
+  
+  ![image](https://user-images.githubusercontent.com/86144443/123554332-152c6380-d79d-11eb-8f14-2f35862f4e24.png)
+
+  _yosys_ command invokes yosys synthesizer.
+  yosys prompt is opened.
+  Now, we have to read the library using _read_verilog <path>_ command.
+  
+  ![image](https://user-images.githubusercontent.com/86144443/123554380-4e64d380-d79d-11eb-96f5-e33f056db278.png)
+
+  Now, we will read the RTL design using the command _read_verilog <file_name.v>_. 
+  
+  ![image](https://user-images.githubusercontent.com/86144443/123554407-7e13db80-d79d-11eb-8ae7-084b5ca3801f.png)
+  
+  Now, we will give the module name that has to be synthesized using command _synth -top <module_name>_.
+  
+  ![image](https://user-images.githubusercontent.com/86144443/123554450-aa2f5c80-d79d-11eb-85c5-7387dfdf1ecf.png)
+
+  Now we will generate the netlist using the command _abc -liberty <path_to_.lib>_.
+  
+  ![image](https://user-images.githubusercontent.com/86144443/123554508-f5496f80-d79d-11eb-9e91-d82470fcd994.png)
+
+  The logic of good_mux.v will be realised in terms of standard cell available in the sky130 library.
+  
+  ![image](https://user-images.githubusercontent.com/86144443/123554591-4d807180-d79e-11eb-8ada-0cb600b7aa30.png)
+
+  It gives a report of what all it has inferred as can be seen above.
+
+  ![image](https://user-images.githubusercontent.com/86144443/123554646-92a4a380-d79e-11eb-9b90-74372d2ab427.png)
+
+  This the the logic it has realised which can be viewed using the command _show_.
+   
+  
+             
+                 
+                 
+                 
+                 
+       
+								 
 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
