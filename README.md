@@ -148,7 +148,7 @@ RTL Design is the behavioral representation of the required specification. We wa
  
  A flip flop A and flip flop B connected through a combinational cicuit. The maximum clock frequency it can work should be such that data can travel from DFF_A to D_FFB in one clock cycle.
 
- T_clk> T_cqA + T_combi + T_setupB
+        T_clk> T_cqA + T_combi + T_setupB
 	
  Here,
 	
