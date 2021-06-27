@@ -585,6 +585,25 @@ Waveform generated for demux with case statement:
 
 Both are same. As can be seen, for is a simple, concise elegant way to write demux or mux. It avoids the repetition of lines.
 
+### Example 3:
+
+4 bit Ripple Carry Adder
+
+![image](https://user-images.githubusercontent.com/86144443/123545399-6cb6d900-d775-11eb-835d-5ec53dd90520.png)
+
+![image](https://user-images.githubusercontent.com/86144443/123545415-82c49980-d775-11eb-9818-625fa8552f99.png)
+
+We are replicating the hardware of full adder 8 times with the help of generate for.
+
+![image](https://user-images.githubusercontent.com/86144443/123545534-1b5b1980-d776-11eb-8605-34d357bae14b.png)
+
+From the waveform its clear that addition of num1 and num2 is being performed.
+
+On performing GLS of the netlist, we get the following waveform:
+
+![image](https://user-images.githubusercontent.com/86144443/123545773-7ccfb800-d777-11eb-9359-f39ed5127f21.png)
+
+Our purpose is served, there is no synth-sim mismatch.
 
 
 
