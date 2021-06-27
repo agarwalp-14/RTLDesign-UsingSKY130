@@ -217,15 +217,17 @@ RTL Design is the behavioral representation of the required specification. We wa
 
   This the the logic it has realised which can be viewed using the command _show_.
    
-  
-             
-                 
-                 
-                 
-                 
-       
-								 
+  To write the netlist _write_verilog -noattr <file_name.v>_ command is used.
 
+![image](https://user-images.githubusercontent.com/86144443/123554735-0e065500-d79f-11eb-8ef3-7ac5c2d08d17.png)
+
+ To view the written verilog file inside yosys _!gvim <file_name.v_ command is used.
+The written netlist is:
+								    
+![image](https://user-images.githubusercontent.com/86144443/123554789-5faedf80-d79f-11eb-8158-7e88d8981de6.png)
+
+It contains instantiations of the library cells.								    
+              							 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
 The name of the library file name is as such because of the following factors:
