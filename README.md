@@ -149,10 +149,15 @@ RTL Design is the behavioral representation of the required specification. We wa
  A flip flop A and flip flop B connected through a combinational cicuit. The maximum clock frequency it can work should be such that data can travel from DFF_A to D_FFB in one clock cycle.
 
  T_clk> T_cqA + T_combi + T_setupB
+	
  Here,
+	
    T_cqA- propogation delay of DFF A
+	
    T_combi- propogation delay of the combination circuit
+	
    T_setupB- setup time for DFF B (min. time before the clock edge where input data supplied has to be stable)
+	
  So, the clock cycle needs to accomodate these three delays. This will determine the min time period needed. So f_max= 1/T_clk.
  We always look for maximum performance, that is minimum time period for which we will prefer faster cells.
  
