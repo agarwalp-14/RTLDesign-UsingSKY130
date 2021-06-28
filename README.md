@@ -2,7 +2,73 @@
 # RTLDesign-UsingSKY130
 This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, that I was a part of.
 
-# Table of contents:
+# Table of contents: 
+
+- [Day 1: Introduction to Verilog RTL design and Synthesis](#day-1--introduction-to-verilog-rtl-design-and-synthesis)
+  * [Introduction to open source simulator verilog](#introduction-to-open-source-simulator-verilog)
+    + [Simulator](#simulator)
+    + [Design](#design)
+    + [TestBench](#testbench)
+    + [How simulator works?](#how-simulator-works-)
+  * [Labs using iverilog and gtkwave](#labs-using-iverilog-and-gtkwave)
+    + [Introduction to lab](#introduction-to-lab)
+    + [Introduction to iverilog gtkwave](#introduction-to-iverilog-gtkwave)
+  * [Introduction to yosys](#introduction-to-yosys)
+    + [Synthesizer](#synthesizer)
+    + [Importance of Libraries](#importance-of-libraries)
+    + [Why do we need different faster cells?](#why-do-we-need-different-faster-cells-)
+    + [Why do we need slower cells?](#why-do-we-need-slower-cells-)
+    + [Faster cells vs slower cells](#faster-cells-vs-slower-cells)
+  * [Labs using Yosys and Sky130 PDKs](#labs-using-yosys-and-sky130-pdks)
+- [Day 2: Timing libs, hierarchical vs flat synthesis and efficient](#day-2--timing-libs--hierarchical-vs-flat-synthesis-and-efficient)
+  * [Introduction to timing.libs](#introduction-to-timinglibs)
+  * [Hierarchical vs Flat Synthesis](#hierarchical-vs-flat-synthesis)
+  * [Various Flop Coding styles and optimization](#various-flop-coding-styles-and-optimization)
+    + [Asynchronous reset and asynchronous set](#asynchronous-reset-and-asynchronous-set)
+    + [Synchronous set and synchronous reset](#synchronous-set-and-synchronous-reset)
+    + [Some interesting optimizations](#some-interesting-optimizations)
+      - [Multiplication of a three bit number by 2](#multiplication-of-a-three-bit-number-by-2)
+      - [Multiplication of a 3 bit number with 9](#multiplication-of-a-3-bit-number-with-9)
+- [Day 3: Combinational and Sequential Optimizations](#day-3--combinational-and-sequential-optimizations)
+  * [Introduction to optimizations](#introduction-to-optimizations)
+  * [Combinational logic optimizations](#combinational-logic-optimizations)
+    + [Example 1:](#example-1-)
+    + [Example 2:](#example-2-)
+    + [Example 3:](#example-3-)
+    + [Example 4:](#example-4-)
+    + [Example 5:](#example-5-)
+  * [Sequential logic optimizations](#sequential-logic-optimizations)
+    + [Example 1:](#example-1--1)
+    + [Example 2:](#example-2--1)
+    + [Example 3:](#example-3--1)
+    + [Example 4:](#example-4--1)
+    + [Example 5:](#example-5--1)
+  * [Unused output optimization](#unused-output-optimization)
+- [Day4: GLS, blocking vs non blocking and Synthesis-Simulation mismatch](#day4--gls--blocking-vs-non-blocking-and-synthesis-simulation-mismatch)
+  * [GLS, Synthesis-Simulation mismatch and Blockin/Non-blocking statements](#gls--synthesis-simulation-mismatch-and-blockin-non-blocking-statements)
+  * [Labs on GLS and synthesis simulation mismatch](#labs-on-gls-and-synthesis-simulation-mismatch)
+    + [Example 1](#example-1)
+    + [Example 2:](#example-2--2)
+  * [Labs on synth-sim mismatch for blocking statement](#labs-on-synth-sim-mismatch-for-blocking-statement)
+- [Day5: If, case, for loop and for generate](#day5--if--case--for-loop-and-for-generate)
+  * [If case constructs](#if-case-constructs)
+  * [Labs on incomplete if case](#labs-on-incomplete-if-case)
+    + [Example 1:](#example-1--2)
+    + [Example 2:](#example-2--3)
+  * [Labs on incomplete overlapping case](#labs-on-incomplete-overlapping-case)
+    + [Example 1:](#example-1--3)
+    + [Example 2:](#example-2--4)
+    + [Example 3:](#example-3--2)
+    + [Example 4:](#example-4--2)
+  * [For loop and for generate](#for-loop-and-for-generate)
+  * [Labs on for and for generate](#labs-on-for-and-for-generate)
+    + [Example 1:](#example-1--4)
+    + [Example 2:](#example-2--5)
+    + [Example 3:](#example-3--3)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 
 # Day 1: Introduction to Verilog RTL design and Synthesis
 
@@ -386,6 +452,19 @@ These are very special cases of optimizations and they are very important becaus
 # Day 3: Combinational and Sequential Optimizations
 
 ## Introduction to optimizations
+	
+There are optimization techniques for combinational and sequential logic to get the maximum area and power savings. 
+	
+	Techniques used for combinational logic:
+	- Constant propagation
+	- Boolean logic optimization 
+	   - K-map
+	   - Quine-McCluskey 
+	Techniques used for sequential logic optimization:
+	- Sequential Constant propagation
+	- State optimization
+	- Retiming
+	- Sequential Logic Cloning
 
 ## Combinational logic optimizations
 
