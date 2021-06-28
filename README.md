@@ -392,6 +392,7 @@ These are very special cases of optimizations and they are very important becaus
 The files used in this lab:
 ![image](https://user-images.githubusercontent.com/86144443/123331620-2424d300-d55d-11eb-8b13-bf67c3a97a33.png)
 
+### Example 1:
 Verilog code:
 ![image](https://user-images.githubusercontent.com/86144443/123331769-520a1780-d55d-11eb-8e6c-bbf871ada77c.png)
 
@@ -402,6 +403,7 @@ Netlist:
 
 We are geting an AND gate which is the optimized version of design.
 
+### Example 2:
 Verilog code:
 ![image](https://user-images.githubusercontent.com/86144443/123332086-af05cd80-d55d-11eb-9dd8-4f2b909ecaa0.png)
 
@@ -416,6 +418,7 @@ Verilog code:
  Netlist:
  ![image](https://user-images.githubusercontent.com/86144443/123333797-d52c6d00-d55f-11eb-9c8d-5f6bc9e760f6.png)
 
+### Example 3:
 Verilog code:
 
 ![image](https://user-images.githubusercontent.com/86144443/123334021-1b81cc00-d560-11eb-881e-68a6939d8264.png)
@@ -423,6 +426,7 @@ Netlist generated:
 
 ![image](https://user-images.githubusercontent.com/86144443/123334377-a2cf3f80-d560-11eb-8b31-00cb81881156.png)
 
+### Example 4:
 Verilog code:
 
 ![image](https://user-images.githubusercontent.com/86144443/123334534-e0cc6380-d560-11eb-9faa-a546c428267b.png)
@@ -433,6 +437,8 @@ Netlist generated:
 ![image](https://user-images.githubusercontent.com/86144443/123335294-e1b1c500-d561-11eb-9bbb-79b877fa257c.png)
 
 The netlist generated is the same as y= c or (a and b).
+	
+### Example 5:
 
 Verilog code:
 
@@ -450,6 +456,7 @@ Netlist with flattening:
 
 ## Sequential logic optimizations
 
+### Example 1:
 Verilog code:
 ![image](https://user-images.githubusercontent.com/86144443/123401262-3dad3580-d5c4-11eb-877a-61b788b9f21d.png)
 This is a sequential constant.
@@ -463,7 +470,7 @@ Netlist synthesized:
 
 A d-flip flop is generated. d is connected to '1'. This particular library cell is expecting a active low reset, but we have coded an active high reser, so tool is inferring a inverter passing through the reset signal. 
 
-
+### Example 2:
 Verilog code:
 
 ![image](https://user-images.githubusercontent.com/86144443/123401878-d2b02e80-d5c4-11eb-82d4-9bd2153203d0.png)
@@ -480,6 +487,7 @@ Netlist:
 
 No D-Flip Flop is inferred.
 
+### Example 3:
 Verilog code:
 
 ![image](https://user-images.githubusercontent.com/86144443/123408297-7a7c2b00-d5ca-11eb-97cc-2b007cf81c40.png)
@@ -497,7 +505,7 @@ So two flip flops are inferred.
 
 So, not every flop that has a constant at the input will get optimised. We need to look at the set and reset connections at the input of the flop and see whether 'q' is getting constant values or they will change.
 
-Few more examples!
+### Example 4:
 
 ![image](https://user-images.githubusercontent.com/86144443/123432961-9262a780-d5e8-11eb-8ee1-d58dfb87b3da.png)
 
@@ -508,6 +516,8 @@ Few more examples!
 ![image](https://user-images.githubusercontent.com/86144443/123433684-59770280-d5e9-11eb-8d7e-62360a93c1dc.png)
 
 No flip flops are inferred in this example.
+	
+### Example 5:
 
 ![image](https://user-images.githubusercontent.com/86144443/123433870-84f9ed00-d5e9-11eb-835a-7962845f29db.png)
 
