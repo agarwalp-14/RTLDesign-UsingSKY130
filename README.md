@@ -1,6 +1,8 @@
 
 # RTLDesignAndSynthesis-UsingSKY130
 This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, that I was a part of.
+![image](https://user-images.githubusercontent.com/86144443/123676261-54bc8380-d861-11eb-9c30-ba919ad97b99.png)
+
 
 # Table of contents: 
 
@@ -301,6 +303,7 @@ It contains instantiations of the library cells.
               							 
 # Day 2: Timing libs, hierarchical vs flat synthesis and efficient 
 ## Introduction to timing.libs
+								    
 The name of the library file name is as such because of the following factors:
 - sky130 is the name of the library
 - **tt** stands for typical process
@@ -319,6 +322,7 @@ The units of time, voltage, power, current, capacitance, resistance are mentione
 <img width="960" alt="and2_0lib2" src="https://user-images.githubusercontent.com/86144443/123264941-26187300-d518-11eb-9c6a-edb3860c824f.PNG">
 
 There are various flavors of gate like and2_0, and2_1, and2_2, and2_4. The area increases, leakage power increases, and delay decreases as we move from and2_0 to and2_4 as can be seen in the following images.
+	
 <img width="960" alt="and2_0_lib" src="https://user-images.githubusercontent.com/86144443/123267001-26b20900-d51a-11eb-8f87-94121c3d94e8.PNG">
 <img width="960" alt="and2_1" src="https://user-images.githubusercontent.com/86144443/123267026-2ade2680-d51a-11eb-850c-2860018d6cf8.PNG">
 <img width="960" alt="and2_2" src="https://user-images.githubusercontent.com/86144443/123267217-62e56980-d51a-11eb-8278-7bc10658f4df.PNG">
