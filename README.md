@@ -1,5 +1,5 @@
 
-# RTLDesign-UsingSKY130
+# RTLDesignAndSynthesis-UsingSKY130
 This is a summary of the RTL Design and Synthesis Workshop conducted by VSD, that I was a part of.
 
 # Table of contents: 
